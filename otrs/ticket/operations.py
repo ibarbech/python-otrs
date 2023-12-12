@@ -43,7 +43,7 @@ class TicketCreate(Ticket):
                        dynamic_fields=dynamic_fields,
                        attachments=attachments, **kwargs)
         elements = self._unpack_resp_several(ret)
-        infos = {extract_tagname(i): int(i.text) for i in elements}
+        infos = {extract_tagname(i): int(i.text) for i in elements if i.text}
         return infos['TicketID'], infos['TicketNumber']
 
 
@@ -117,7 +117,7 @@ class TicketSearch(Ticket):
             kwargs['DynamicFields'] = df_search_list
 
         ret = self.req('TicketSearch', **kwargs)
-        return [int(i.text) for i in self._unpack_resp_several(ret)]
+        return [int(i.text) for i in self._unpack_resp_several(ret) if i.text]
 
 
 class TicketUpdate(Ticket):
@@ -167,5 +167,5 @@ class TicketUpdate(Ticket):
 
         ret = self.req('TicketUpdate', **kwargs)
         elements = self._unpack_resp_several(ret)
-        infos = {extract_tagname(i): int(i.text) for i in elements}
+        infos = {extract_tagname(i): int(i.text) for i in elements if i.text}
         return infos['TicketID'], infos['TicketNumber']
